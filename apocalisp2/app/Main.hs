@@ -15,7 +15,7 @@ parse ["-i"] = mode >> exit
 parse []     = getContents
 parse fs     = concat `fmap` mapM readFile fs
     
-usage   = putStrLn "Usage: tac [-vh] [file ..]"
+usage   = putStrLn "Usage: lisp [-i] [file ..]"
 mode = putStrLn "Cli Mode"
 exit    = exitWith ExitSuccess
 die     = exitWith (ExitFailure 1)
