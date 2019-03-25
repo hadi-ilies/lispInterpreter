@@ -6,11 +6,8 @@ import Lib
     
 main :: IO ()
     
-main = getArgs >>= parse >>= putStr . tac
-    
-tac  = unlines . reverse . lines
-    
-parse ["-h"] = usage   >> exit
+main = getArgs >>= parse >>= putStr
+parse ["-h"] = usage >> exit
 parse ["-i"] = mode >> exit
 parse []     = getContents
 parse fs     = concat `fmap` mapM readFile fs

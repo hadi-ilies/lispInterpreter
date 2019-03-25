@@ -8,7 +8,7 @@
 ## Last update Mon Mar 25 23:25:54 2019 test
 ##
 
-NAME	=	lisp
+NAME	=	lisp2
 
 SRC	=	app/Main.hs		\
 
@@ -19,7 +19,7 @@ $(NAME): $(SRC)
 
 clean:
 	stack clean
-	
+
 fclean:	clean
 	$(RM) $(NAME)
 
