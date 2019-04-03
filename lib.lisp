@@ -57,3 +57,8 @@
     lambda (x)
         (if (null? x) 0 (+ 1 (length (cdr x))))
 ))
+
+(define reverse (
+    lambda (x)
+        (if (<= (length x) 1) x (cons (reverse (cdr x)) (car x)))
+))
