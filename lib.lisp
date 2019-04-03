@@ -27,3 +27,28 @@
     lambda (x y)
         (if (eq? x #t) (if (eq? y #t) #t #f) #f)
 ))
+
+(define cadr (
+    lambda (x)
+        (car (cdr x))
+))
+
+(define caddr (
+    lambda (x)
+        (car (cdr (cdr x)))
+))
+
+(define caadr (
+    lambda (x)
+        (car (car (cdr x)))
+))
+
+(define caaddr (
+    lambda (x)
+        (car (car (cdr (cdr x))))
+))
+
+(define null? (
+    lambda (x)
+        (if (eq? x '()) #t #f)
+))
