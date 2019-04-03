@@ -8,7 +8,7 @@
 ## Last update Mon Mar 25 23:25:54 2019 test
 ##
 
-NAME	=	lisp2
+NAME	=	lisp
 
 SRC	=	app/Main.hs		\
 
