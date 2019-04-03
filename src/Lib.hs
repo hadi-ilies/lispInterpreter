@@ -1,6 +1,14 @@
 module Lib
-    ( someFunc
+    ( symbol,
+      readExpr
     ) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Text.ParserCombinators.Parsec hiding (spaces)
+
+symbol :: Parser Char
+symbol = oneOf "()!#$%&|*+-/:<=>?@^_~"
+
+readExpr :: String -> String
+readExpr input = case parse symbol "lisp" input of
+    Left err -> "No match: " ++ show err
+    Right val -> "Found value"   
