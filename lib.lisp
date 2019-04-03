@@ -52,3 +52,8 @@
     lambda (x)
         (if (eq? x '()) #t #f)
 ))
+
+(define length (
+    lambda (x)
+        (if (null? x) 0 (+ 1 (length (cdr x))))
+))
