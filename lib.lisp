@@ -8,6 +8,15 @@
     )
 )
 
+(define <=
+    (lambda (x y)
+        (cond
+            ((> x y) #f)
+            (#t #t)
+        )
+    )
+)
+
 (define >=
     (lambda (x y)
         (cond
@@ -17,11 +26,11 @@
     )
 )
 
-(define <=
-    (lambda (x y)
+(define abs
+    (lambda (x)
         (cond
-            ((> x y) #f)
-            (#t #t)
+            ((< x 0) (* x (- 1)))
+            (#t x)
         )
     )
 )
@@ -101,6 +110,7 @@
     )
 )
 
+;; Marche pas
 (define reverse
     (lambda (x)
         (cond
