@@ -157,3 +157,23 @@
         )
     )
 )
+
+(define filter
+    (lambda (func list)
+        (cond
+            ((null? list) list)
+            ((eq? (length list) 1)
+                (cond
+                    ((func (car list)) (cons (car list) '()))
+                    (#t '())
+                )
+            )
+            (#t
+                (append
+                    (filter func (cons (car list) '()))
+                    (filter func (cdr list))
+                )
+            )
+        )
+    )
+)
