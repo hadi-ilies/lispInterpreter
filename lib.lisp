@@ -119,12 +119,61 @@
         )
     )
 )
-;; Marche pas
+
+(define appends
+    (lambda (x)
+        (cond
+            ((<= (length x) 1) (cdr x))
+            ((<= (length x) 2) (append (car x) (cadr x)))
+            (#t (append (car x) (appends (cdr x))))
+        )
+    )
+)
+
 (define reverse
     (lambda (x)
         (cond
             ((<= (length x) 1) x)
-            (#t (cons (reverse (cdr x)) (car x)))
+            (#t (append (reverse (cdr x)) (cons (car x) '())))
+        )
+    )
+)
+
+(define iota
+    (lambda (x)
+        (cond
+            ((<= x 0) '())
+            (#t (append (iota (- x 1)) (list (- x 1))))
+        )
+    )
+)
+
+(define map
+    (lambda (func list)
+        (cond
+            ((null? list) list)
+            ((eq? (length list) 1) (cons (func (car list)) '()))
+            (#t (append (map func (cons (car list) '())) (map func (cdr list))))
+        )
+    )
+)
+
+(define filter
+    (lambda (func list)
+        (cond
+            ((null? list) list)
+            ((eq? (length list) 1)
+                (cond
+                    ((func (car list)) (cons (car list) '()))
+                    (#t '())
+                )
+            )
+            (#t
+                (append
+                    (filter func (cons (car list) '()))
+                    (filter func (cdr list))
+                )
+            )
         )
     )
 )
