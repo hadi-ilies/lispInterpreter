@@ -14,10 +14,14 @@ cli = do
         -- test
         cli
 
+hadiPls :: [String] -> Bool
+hadiPls [] = False
+hadiPls (a:as) = if (a == "-i") then True else hadiPls (as) 
+
 main = do
-    (expr:_) <- getArgs
-    putStrLn (readExpr expr)
-    cli
+    expr <- getArgs
+    if (expr == []) then cli
+    else if (hadiPls (expr) == True) then cli else putStrLn ("LOL you have to read files")
     --getArgs >>= parse >>= putStr
 -- parse ["-h"] = usage >> exit
 -- parse ["-i"] = mode >> exit
