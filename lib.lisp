@@ -110,6 +110,15 @@
     )
 )
 
+(define append
+    (lambda (x y)
+        (cond
+            ((not (null? x)) (cons (car x) (append (cdr x) y)))
+            ((not (null? y)) (cons (car y) (append x (cdr y))))
+            (#t '())
+        )
+    )
+)
 ;; Marche pas
 (define reverse
     (lambda (x)
