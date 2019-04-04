@@ -130,12 +130,11 @@
     )
 )
 
-;; Marche pas
 (define reverse
     (lambda (x)
         (cond
             ((<= (length x) 1) x)
-            (#t (cons (reverse (cdr x)) (car x)))
+            (#t (append (reverse (cdr x)) (cons (car x) '())))
         )
     )
 )
