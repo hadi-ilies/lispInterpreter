@@ -27,7 +27,7 @@ cli True (a:as) = do
 cli False (a:as) = do
     putStrLn("Without Cli mode with files")
     fileContent <- readFile (a)
-    putStrLn(fileContent)
+    --putStrLn(fileContent)
     let linesOfFiles = lines fileContent
     print(asList linesOfFiles)
     if (as == []) then do
