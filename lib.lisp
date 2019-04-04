@@ -138,3 +138,12 @@
         )
     )
 )
+
+(define iota
+    (lambda (x)
+        (cond
+            ((<= x 0) '())
+            (#t (append (iota (- x 1)) (list (- x 1))))
+        )
+    )
+)
