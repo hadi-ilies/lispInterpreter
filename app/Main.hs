@@ -26,9 +26,13 @@ cli True (a:as) = do
         cli True as
 cli False (a:as) = do
     putStrLn("Without Cli mode with files")
-    name <- getLine --have to read files
-    putStrLn(name)
-    if (name == "exit") then exitWith ExitSuccess
+    fileContent <- readFile (a)
+    putStrLn(fileContent)
+    let linesOfFiles = lines fileContent
+    print(asList linesOfFiles)
+    if (as == []) then do
+        putStrLn("Interactive Mode have been Stoped")
+        exitWith ExitSuccess
     else
         --test
         cli False as
