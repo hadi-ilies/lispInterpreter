@@ -119,6 +119,17 @@
         )
     )
 )
+
+(define appends
+    (lambda (x)
+        (cond
+            ((<= (length x) 1) (cdr x))
+            ((<= (length x) 2) (append (car x) (cadr x)))
+            (#t (append (car x) (appends (cdr x))))
+        )
+    )
+)
+
 ;; Marche pas
 (define reverse
     (lambda (x)
