@@ -147,3 +147,13 @@
         )
     )
 )
+
+(define map
+    (lambda (func list)
+        (cond
+            ((null? list) list)
+            ((eq? (length list) 1) (cons (func (car list)) '()))
+            (#t (append (map func (cons (car list) '())) (map func (cdr list))))
+        )
+    )
+)
