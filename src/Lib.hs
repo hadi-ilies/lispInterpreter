@@ -1,19 +1,16 @@
 module Lib
-    ( symbol,
-      readExpr,
+    ( readExpr,
       asList
     ) where
 
 import Text.ParserCombinators.Parsec
-
-symbol :: Parser Char
-symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
+import Pars
 
 skipSpace :: Parser ()
 skipSpace = skipMany1 space 
 
 readExpr :: String -> String
-readExpr input = case parse (skipSpace >> symbol) "lisp" input of
+readExpr input = case parse parseExpr "lisp" input of
     Left err -> "No match: " ++ show err
     Right val -> "Found value"   
 

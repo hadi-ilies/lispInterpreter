@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8bbc295afe94adaec46d441e6fb888d99a63a27ffcb1d126a83f2c923dc079b1
+-- hash: 3762bade427c4f3df782f3ca7f5d2fc3e1fc2c472093b43e7568910b0b9b5b0b
 
 name:           apocalisp2
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Pars
   other-modules:
       Paths_apocalisp2
   hs-source-dirs:
@@ -36,6 +37,7 @@ library
       base >=4.7 && <5
     , parsec
     , regex-pcre
+    , text
   default-language: Haskell2010
 
 executable lisp
@@ -50,6 +52,7 @@ executable lisp
     , base >=4.7 && <5
     , parsec
     , regex-pcre
+    , text
   default-language: Haskell2010
 
 test-suite apocalisp2-test
@@ -65,4 +68,5 @@ test-suite apocalisp2-test
     , base >=4.7 && <5
     , parsec
     , regex-pcre
+    , text
   default-language: Haskell2010

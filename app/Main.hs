@@ -7,6 +7,9 @@ import Text.Regex.PCRE
 
 main :: IO ()
 
+cutWhitespace :: [String] -> [String]
+cutWhitespace (x:xs) = (filter (\xs -> (xs /=' ')) x) : xs
+
 -- this function is an infinite loop which wait a string and will execute it loop is stoped when exit string was inserted 
 cli :: Bool -> [String] -> IO()
 cli True [] =  do
@@ -29,7 +32,10 @@ cli False (a:as) = do
     fileContent <- readFile (a)
     --putStrLn(fileContent)
     let linesOfFiles = lines fileContent
-    print(asList linesOfFiles)
+    let commands = asList linesOfFiles
+    print (commands)
+    print (readExpr commands)
+    --print(asList linesOfFiles)
     if (as == []) then do
         putStrLn("Interactive Mode have been Stoped")
         exitWith ExitSuccess
