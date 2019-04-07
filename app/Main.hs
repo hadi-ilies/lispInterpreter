@@ -10,22 +10,38 @@ main :: IO ()
 cutWhitespace :: [String] -> [String]
 cutWhitespace (x:xs) = (filter (\xs -> (xs /=' ')) x) : xs
 
+--browse a string and send command to the Parser
+execCommand :: String -> IO()
+execCommand [] = putStrLn ("END of File Commands")
+execCommand (x:xs) = do 
+            --print xs
+            if (x == '(') then do 
+                print (display (eval ( readExpr ([x] ++ xs))))
+                execCommand (xs)
+            else execCommand (xs)
+
 -- this function is an infinite loop which wait a string and will execute it loop is stoped when exit string was inserted 
 cli :: Bool -> [String] -> IO()
 cli True [] =  do
     putStrLn("Cli mode")
-    name <- getLine
+    command <- getLine
     -- putStrLn(readExpr name)
     --putStrLn(name)
-    if (name == "exit") then exitWith ExitSuccess
-    else
+    if (command == "exit") then exitWith ExitSuccess
+    else do
+        print (display (eval ( readExpr (command))))
         cli True []
 cli True (a:as) = do
-    putStrLn("Cli mode with files") 
-    name <- getLine --have to read files and after read from stdin
-    putStrLn(name)
-    if (name == "exit") then exitWith ExitSuccess
-    else
+    putStrLn("Cli mode with files")
+    fileContent <- readFile (a)
+    let linesOfFiles = lines fileContent
+    let commands = asList linesOfFiles
+    if (commands == "") then
+        cli True []
+    else do
+        execCommand commands
+       -- print (commands)
+       -- print (display (eval ( readExpr ( commands)))) 
         cli True as
 cli False (a:as) = do
     putStrLn("Without Cli mode with files")
@@ -33,8 +49,9 @@ cli False (a:as) = do
     --putStrLn(fileContent)
     let linesOfFiles = lines fileContent
     let commands = asList linesOfFiles
-    print (commands)
-    print (display (eval ( readExpr ( commands))))
+    execCommand commands
+    --print (commands)
+    --print (display (eval ( readExpr ( commands))))
     --print(asList linesOfFiles)
     if (as == []) then do
         putStrLn("Interactive Mode have been Stoped")
@@ -55,7 +72,7 @@ findFile r (a:as) = if (matchTest r a == True) then
     [a] ++ findFile r as
     else findFile r as
 
--- this function is the first of the program
+--main funtion
 main = do
     let regex = makeRegex "\\.(lisp|scm)$" :: Regex
     expr <- getArgs
