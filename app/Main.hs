@@ -15,7 +15,7 @@ cli :: Bool -> [String] -> IO()
 cli True [] =  do
     putStrLn("Cli mode")
     name <- getLine
-    putStrLn(readExpr name)
+    -- putStrLn(readExpr name)
     --putStrLn(name)
     if (name == "exit") then exitWith ExitSuccess
     else
@@ -34,7 +34,7 @@ cli False (a:as) = do
     let linesOfFiles = lines fileContent
     let commands = asList linesOfFiles
     print (commands)
-    print (readExpr commands)
+    print (display (eval ( readExpr ( commands))))
     --print(asList linesOfFiles)
     if (as == []) then do
         putStrLn("Interactive Mode have been Stoped")

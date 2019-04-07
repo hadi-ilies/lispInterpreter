@@ -1,18 +1,19 @@
 module Pars
     ( 
-    parseExpr
+    parseExpr,
+    LispVal (..)
     ) where
 import Text.ParserCombinators.Parsec
 import Control.Monad --liftM
 import System.Environment
 
 data LispVal = Atom String
-    | List [LispVal]
-    | DottedList [LispVal] LispVal
-    | Number Integer
-    | String String
-    | Bool Bool
-    | Float Float
+        | List [LispVal]
+        | DottedList [LispVal] LispVal
+        | Number Integer
+        | String String
+        | Bool Bool
+        | Float Float
 
 parseString :: Parser LispVal
 parseString = do
@@ -22,7 +23,7 @@ parseString = do
     return $ String x
 
 symbol :: Parser Char
-symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
+symbol = oneOf "'!#$%&|*+-/:<=>?@^_~"
     
 parseAtom :: Parser LispVal
 parseAtom = do 
