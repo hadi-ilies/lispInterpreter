@@ -187,5 +187,11 @@
     )
 )
 
-; (fold-left (lambda (acc x) (- acc x)) 0 '(1 2 3))
-            ;((eq? (length list) 1) (func acc (car list)))
+(define fold-right
+    (lambda (func acc list)
+        (cond
+            ((null? list) acc)
+            (#t (fold-right func (func (car list) acc) (cdr list)))
+        )
+    )
+)
