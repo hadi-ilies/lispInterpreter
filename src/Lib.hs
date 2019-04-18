@@ -12,11 +12,16 @@ skipSpace :: Parser ()
 skipSpace = skipMany1 space 
 
 -- The function will return the corresponding value as (Just value), or Nothing if the key isn't in the map. 
+-- NOTE: maybe is used to say that you allow the func to return nothing 
 apply :: String -> [LispVal] -> LispVal
 apply func args = maybe (Bool False) ($ args) $ lookup func primitives
 
+--my dictionary
 primitives :: [(String, [LispVal] -> LispVal)]
-primitives = [("+", numericBinop (+)),
+primitives = [("cons", cons),
+              ("car", car),
+              ("cdr", cdr),
+              ("+", numericBinop (+)),
               ("-", numericBinop (-)),
               ("*", numericBinop (*)),
               ("/", numericBinop div),
@@ -39,10 +44,37 @@ unpackNum _ = 0
 eval :: LispVal -> LispVal
 eval val@(String _) = val
 eval val@(Number _) = val
-eval val@(Bool _) = val
+eval val@(Bool _) = val 
 eval (List [Atom "quote", val]) = val
 eval (List [Atom "\'", val]) = val
 eval (List (Atom func : args)) = apply func (map eval args)
+
+
+--TODO cons function have to create error management
+cons :: [LispVal] -> LispVal
+cons [x1, List []] = List [x1]
+cons [x, List xs] = List $ x : xs
+cons [x, DottedList xs xlast] = DottedList (x : xs) xlast
+cons [x1, x2] = DottedList [x1] x2
+cons badArgList = List (badArgList)
+
+--TODO car function have to create error managment
+car :: [LispVal] -> LispVal
+car [List (x : xs)]         = x
+car [DottedList (x : xs) _] = x
+--car [badArg]                = throwError $ TypeMismatch "pair" badArg
+--car badArgList = throwError $ NumArgs 1 badArgList
+
+--TODO cdr function have to had error managment
+cdr :: [LispVal] -> LispVal
+cdr [List (x : xs)]         = List xs
+cdr [DottedList [_] x]      =  x
+cdr [DottedList (_ : xs) x] =  DottedList xs x
+--cdr [badArg]                = throwError $ TypeMismatch "pair" badArg
+--cdr badArgList              = throwError $ NumArgs 1 badArgList
+
+--cons function
+
 
 -- unwords list to string
 unwordsList :: [LispVal] -> String

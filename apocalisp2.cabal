@@ -40,7 +40,7 @@ library
     , text
   default-language: Haskell2010
 
-executable lisp
+executable alisp
   main-is: Main.hs
   other-modules:
       Paths_apocalisp2

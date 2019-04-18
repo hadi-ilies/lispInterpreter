@@ -12,6 +12,7 @@ cutWhitespace (x:xs) = (filter (\xs -> (xs /=' ')) x) : xs
 
 --browse a string and send command to the Parser
 execCommand :: String -> IO()
+--execCommand lol = print (display (eval ( readExpr (lol))))
 execCommand [] = putStrLn ("END of File Commands")
 execCommand (x:xs) = do 
             --print xs
