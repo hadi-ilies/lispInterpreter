@@ -18,16 +18,16 @@ apply func args = maybe (Bool False) ($ args) $ lookup func primitives
 
 --my dictionary
 primitives :: [(String, [LispVal] -> LispVal)]
-primitives = [("cons", cons),
-              ("car", car),
-              ("cdr", cdr),
-              ("+", numericBinop (+)),
+primitives = [("+", numericBinop (+)),
               ("-", numericBinop (-)),
               ("*", numericBinop (*)),
               ("/", numericBinop div),
               ("mod", numericBinop mod),
               ("quotient", numericBinop quot),
-              ("remainder", numericBinop rem)]
+              ("remainder", numericBinop rem),
+              ("cons", cons),
+              ("car", car),
+              ("cdr", cdr)]
 
 numericBinop :: (Integer -> Integer -> Integer) -> [LispVal] -> LispVal
 numericBinop op params = Number (foldl1 op (map unpackNum params))
@@ -52,6 +52,7 @@ eval (List (Atom func : args)) = apply func (map eval args)
 
 --TODO cons function have to create error management
 cons :: [LispVal] -> LispVal
+cons [] = List []
 cons [x1, List []] = List [x1]
 cons [x, List xs] = List $ x : xs
 cons [x, DottedList xs xlast] = DottedList (x : xs) xlast
@@ -62,16 +63,16 @@ cons badArgList = List (badArgList)
 car :: [LispVal] -> LispVal
 car [List (x : xs)]         = x
 car [DottedList (x : xs) _] = x
---car [badArg]                = throwError $ TypeMismatch "pair" badArg
---car badArgList = throwError $ NumArgs 1 badArgList
+--car [badArg]                = badArg
+--car badArgList = badArgList
 
 --TODO cdr function have to had error managment
 cdr :: [LispVal] -> LispVal
 cdr [List (x : xs)]         = List xs
 cdr [DottedList [_] x]      =  x
 cdr [DottedList (_ : xs) x] =  DottedList xs x
---cdr [badArg]                = throwError $ TypeMismatch "pair" badArg
---cdr badArgList              = throwError $ NumArgs 1 badArgList
+--cdr [badArg]                =  String(show badArg)
+--cdr badArgList              =  String(badArgList)
 
 --cons function
 
@@ -80,7 +81,7 @@ cdr [DottedList (_ : xs) x] =  DottedList xs x
 unwordsList :: [LispVal] -> String
 unwordsList = unwords . map display
 
--- show func convert anything of his class to a String 
+-- show func ,convert anything of his class to a String 
 display :: LispVal -> String
 display (String command) = command 
 display (Atom command) = command
@@ -94,7 +95,7 @@ display (DottedList head tail) = "(" ++ unwordsList head ++ " . " ++ display tai
 readExpr :: String -> LispVal
 readExpr input = case parse parseExpr "lisp" input of
     Left err -> String ("No match: " ++ show err)
-    Right val -> val  
+    Right val -> val
 
 -- transform a list of string to a string
 -- NOTE : "'" is used to indicate a strict variant of a function

@@ -26,7 +26,7 @@ cli :: Bool -> [String] -> IO()
 cli True [] =  do
     putStrLn("Cli mode")
     command <- getLine
-    -- putStrLn(readExpr name)
+    --print(show readExpr command)
     --putStrLn(name)
     if (command == "exit") then exitWith ExitSuccess
     else do

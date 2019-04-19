@@ -29,7 +29,7 @@ library:
   source-dirs: src
 
 executables:
-  lisp:
+  alisp:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3762bade427c4f3df782f3ca7f5d2fc3e1fc2c472093b43e7568910b0b9b5b0b
+-- hash: cfe15fe322cdeac1fe5a6004b1735d613dfac14b57ee48c0a3aa651b9187254d
 
 name:           apocalisp2
 version:        0.1.0.0
