@@ -63,7 +63,7 @@ cons badArgList = List (badArgList)
 car :: [LispVal] -> LispVal
 car [List (x : xs)]         = x
 car [DottedList (x : xs) _] = x
-car [badArg]                = List [badArg]
+car [badArg]                = List []
 car badArgList = List badArgList
 
 --TODO cdr function have to had error managment
