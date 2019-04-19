@@ -52,7 +52,7 @@ eval (List (Atom func : args)) = apply func (map eval args)
 
 --TODO cons function have to create error management
 cons :: [LispVal] -> LispVal
-cons [] = List []
+cons [test] =  List []
 cons [x1, List []] = List [x1]
 cons [x, List xs] = List $ x : xs
 cons [x, DottedList xs xlast] = DottedList (x : xs) xlast
@@ -63,16 +63,16 @@ cons badArgList = List (badArgList)
 car :: [LispVal] -> LispVal
 car [List (x : xs)]         = x
 car [DottedList (x : xs) _] = x
---car [badArg]                = badArg
---car badArgList = badArgList
+car [badArg]                = List [badArg]
+car badArgList = List badArgList
 
 --TODO cdr function have to had error managment
 cdr :: [LispVal] -> LispVal
 cdr [List (x : xs)]         = List xs
 cdr [DottedList [_] x]      =  x
 cdr [DottedList (_ : xs) x] =  DottedList xs x
---cdr [badArg]                =  String(show badArg)
---cdr badArgList              =  String(badArgList)
+cdr [badArg]                =  List [badArg]
+cdr badArgList              =  List badArgList
 
 --cons function
 
