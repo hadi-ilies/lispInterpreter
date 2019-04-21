@@ -27,7 +27,9 @@ primitives = [("+", numericBinop (+)),
               ("remainder", numericBinop rem),
               ("cons", cons),
               ("car", car),
-              ("cdr", cdr)]
+              ("cdr", cdr),
+              ("list", list),
+              ("atom?", atom)]
 
 numericBinop :: (Integer -> Integer -> Integer) -> [LispVal] -> LispVal
 numericBinop op params = Number (foldl1 op (map unpackNum params))
@@ -47,8 +49,8 @@ eval val@(Number _) = val
 eval val@(Bool _) = val 
 eval (List [Atom "quote", val]) = val
 eval (List [Atom "\'", val]) = val
+--eval (List [Atom "atom?", val]) = if (length val /= 0) then Bool False else Bool True
 eval (List (Atom func : args)) = apply func (map eval args)
-
 
 --TODO cons function have to create error management
 cons :: [LispVal] -> LispVal
@@ -57,8 +59,21 @@ cons [x1, List []] = List [x1]
 cons [x, List xs] = List $ x : xs
 cons [x, DottedList xs xlast] = DottedList (x : xs) xlast
 cons [x1, x2] = DottedList [x1] x2
-cons badArgList = List (badArgList)
+cons badArgList = if (length badArgList /= 2) then List [] else List (badArgList)
 
+--TODO list function have to create error management
+list :: [LispVal] -> LispVal
+list [test] =  List []
+list [x1, List []] = List [x1]
+list [x, List xs] = List $ x : xs
+list [x, DottedList xs xlast] = DottedList (x : xs) xlast
+list [x1, x2] = DottedList [x1] x2
+list badArgList = List (badArgList)
+
+atom :: [LispVal] -> LispVal
+atom [List (x: xs)] = Bool False
+atom [x] = Bool True
+atom badArgList = List[] 
 --TODO car function have to create error managment
 car :: [LispVal] -> LispVal
 car [List (x : xs)]         = x
