@@ -195,3 +195,12 @@
         )
     )
 )
+
+(define fact
+    (lambda (x)
+        (cond
+            ((<= x 0) 1)
+            (#t (* x (fact (- x 1))))
+        )
+    )
+)
