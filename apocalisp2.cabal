@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cfe15fe322cdeac1fe5a6004b1735d613dfac14b57ee48c0a3aa651b9187254d
+-- hash: 034bdf181f50f7f220f34ea233a49a43711bf10aaa7187862b72de74d43372d5
 
 name:           apocalisp2
 version:        0.1.0.0
@@ -66,6 +66,7 @@ test-suite apocalisp2-test
   build-depends:
       apocalisp2
     , base >=4.7 && <5
+    , hspec
     , parsec
     , regex-pcre
     , text

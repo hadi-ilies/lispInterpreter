@@ -8,8 +8,8 @@ module Lib
 import Text.ParserCombinators.Parsec
 import Pars
 
-skipSpace :: Parser ()
-skipSpace = skipMany1 space 
+--skipSpace :: Parser ()
+--skipSpace = skipMany1 space 
 
 -- The function will return the corresponding value as (Just value), or Nothing if the key isn't in the map. 
 -- NOTE: maybe is used to say that you allow the func to return nothing 
@@ -73,8 +73,12 @@ list badArgList = List (badArgList)
 
 atom :: [LispVal] -> LispVal
 atom [List (x: xs)] = Bool False
-atom [x] = Bool True
-atom badArgList = List[] 
+atom [test] = Bool True
+atom badArgList = List[]
+atom [List (String x: _ )] = case x of
+                    "' ()" -> Bool False
+atom _ = Bool True
+--atom = Nothing List []
 --TODO car function have to create error managment
 car :: [LispVal] -> LispVal
 car [List (x : xs)]         = x
@@ -92,7 +96,6 @@ cdr badArgList              =  List badArgList
 
 --cons function
 
-
 -- unwords list to string
 unwordsList :: [LispVal] -> String
 unwordsList = unwords . map display
@@ -108,6 +111,11 @@ display (List contents) = "(" ++ unwordsList contents ++ ")"
 display (DottedList head tail) = "(" ++ unwordsList head ++ " . " ++ display tail ++ ")"
 
 --NOTE f (g x) ==  f $ g x 
+--  readExpr :: String -> Either ParseError LispVal
+--  readExpr input = case parse parseExpr "lisp" input of
+--     Left _err -> Left ParseError
+--     Right val -> Right val
+
 readExpr :: String -> LispVal
 readExpr input = case parse parseExpr "lisp" input of
     Left err -> String ("No match: " ++ show err)

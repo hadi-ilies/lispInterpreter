@@ -4,8 +4,9 @@ module Pars
     LispVal (..)
     ) where
 import Text.ParserCombinators.Parsec
+import Prelude hiding (head, tail)
 import Control.Monad --liftM
-import System.Environment
+--import System.Environment
 
 data LispVal = Atom String
         | List [LispVal]
@@ -17,13 +18,13 @@ data LispVal = Atom String
 
 parseString :: Parser LispVal
 parseString = do
-    char '"'
+    _ <- char '"'
     x <- many (noneOf "\"")
-    char '"'
+    _ <- char '"'
     return $ String x
 
 symbol :: Parser Char
-symbol = oneOf "'!#$%&|*+-/:<=>?@^_~"
+symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
     
 parseAtom :: Parser LispVal
 parseAtom = do 
@@ -41,7 +42,7 @@ parseNumber = do
 
 parseQuoted :: Parser LispVal
 parseQuoted = do
-    char '\''
+    _ <- char '\''
     x <- parseExpr
     return $ List [Atom "quote", x]
 
@@ -61,7 +62,7 @@ parseExpr = parseAtom
     <|> parseNumber
     <|> parseQuoted
     <|> do  
-            char '('
+            _ <- char '('
             x <- try parseList <|> parseDottedList
-            char ')'
+            _ <- char ')'
             return x

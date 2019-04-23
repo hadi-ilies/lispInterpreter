@@ -47,13 +47,10 @@ cli True (a:as) = do
 cli False (a:as) = do
     putStrLn("Without Cli mode with files")
     fileContent <- readFile (a)
-    --putStrLn(fileContent)
     let linesOfFiles = lines fileContent
     let commands = asList linesOfFiles
     execCommand commands
-    --print (commands)
-    --print (display (eval ( readExpr ( commands))))
-    --print(asList linesOfFiles)
+    --print (display (eval ( readExpr (commands))))
     if (as == []) then do
         putStrLn("Interactive Mode have been Stoped")
         exitWith ExitSuccess
