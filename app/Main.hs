@@ -11,15 +11,25 @@ cutWhitespace :: [String] -> [String]
 cutWhitespace (x:xs) = (filter (\xs -> (xs /=' ')) x) : xs
 
 --browse a string and send command to the Parser
-execCommand :: String -> IO()
+execCommand :: String -> Int -> String -> IO()
 --execCommand lol = print (display (eval ( readExpr (lol))))
-execCommand [] = putStrLn ("END of File Commands")
-execCommand (x:xs) = do 
-            --print xs
-            if (x == '(') then do 
-                print (display (eval ( readExpr ([x] ++ xs))))
-                execCommand (xs)
-            else execCommand (xs)
+execCommand str nb [] = putStrLn ("END of File Commands")
+execCommand str nb (x:xs) = do 
+            let exp = str ++ [x]
+            --print str
+            if (x == '(') then do
+                let par = nb + 1
+                execCommand exp par xs
+            else if x == ')' && nb == 1 then do 
+                print (display (eval ( readExpr (exp))))
+                let par = nb - 1 
+                execCommand "" par xs   
+            else if (x == ')') then do
+                let par = nb - 1
+                execCommand exp par xs
+                --print nb
+            else do
+                execCommand exp nb xs
 
 -- this function is an infinite loop which wait a string and will execute it loop is stoped when exit string was inserted 
 cli :: Bool -> [String] -> IO()
@@ -40,7 +50,7 @@ cli True (a:as) = do
     if (commands == "") then
         cli True []
     else do
-        execCommand commands
+        execCommand "" 0 commands
        -- print (commands)
        -- print (display (eval ( readExpr ( commands)))) 
         cli True as
@@ -49,7 +59,7 @@ cli False (a:as) = do
     fileContent <- readFile (a)
     let linesOfFiles = lines fileContent
     let commands = asList linesOfFiles
-    execCommand commands
+    execCommand "" 0 commands
     --print (display (eval ( readExpr (commands))))
     if (as == []) then do
         putStrLn("Interactive Mode have been Stoped")
